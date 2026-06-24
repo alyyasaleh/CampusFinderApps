@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Use 10.0.2.2 for Android emulator, localhost for Chrome/Windows
-  static const String baseUrl = "http://10.0.2.2/lost_found_api";
+  // Use localhost for Chrome/Windows
+  static const String baseUrl = "http://localhost/lost_found_api";
 
   // ─── AUTH ───────────────────────────────────────────────
 
@@ -14,9 +14,14 @@ class ApiService {
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"name": name, "email": email, "password": password}),
+      body: {
+        "name": name,
+        "email": email,
+        "password": password,
+      },
     );
+
+    print("REGISTER RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
@@ -26,16 +31,26 @@ class ApiService {
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email, "password": password}),
+      body: {
+        "email": email,
+        "password": password,
+      },
     );
+
+    print("LOGIN RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
   // ─── REPORTS ────────────────────────────────────────────
 
   static Future<List<dynamic>> getReports() async {
-    final response = await http.get(Uri.parse("$baseUrl/get_reports.php"));
+    // Your PHP file name is get_report.php, not get_reports.php
+    final response = await http.get(
+      Uri.parse("$baseUrl/get_report.php"),
+    );
+
+    print("GET REPORTS RESPONSE: ${response.body}");
+
     final data = jsonDecode(response.body);
     return data['data'] ?? [];
   }
@@ -45,21 +60,23 @@ class ApiService {
     required String title,
     required String description,
     required String category,
-    required String type, // 'lost' or 'found'
+    required String type,
     required String location,
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/add_report.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "user_id": userId,
-        "title": title,
+      body: {
+        "user_id": userId.toString(),
+        "item_name": title,
         "description": description,
         "category": category,
-        "type": type,
+        "report_type": type,
         "location": location,
-      }),
+        "status": "Unclaimed",
+      },
     );
+
+    print("ADD REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
@@ -74,26 +91,30 @@ class ApiService {
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/update_report.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "id": id,
-        "title": title,
+      body: {
+        "report_id": id.toString(),
+        "item_name": title,
         "description": description,
         "category": category,
-        "type": type,
+        "report_type": type,
         "location": location,
         "status": status,
-      }),
+      },
     );
+
+    print("UPDATE REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
   static Future<Map<String, dynamic>> deleteReport(int id) async {
     final response = await http.post(
       Uri.parse("$baseUrl/delete_report.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"id": id}),
+      body: {
+        "report_id": id.toString(),
+      },
     );
+
+    print("DELETE REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 }
