@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Use localhost for Chrome/Windows
   static const String baseUrl = "http://localhost/lost_found_api";
 
-  // ─── AUTH ───────────────────────────────────────────────
+  // ─── AUTH ────────────────────────────────────────────────
 
   static Future<Map<String, dynamic>> register({
     required String name,
@@ -14,14 +13,8 @@ class ApiService {
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register.php"),
-      body: {
-        "name": name,
-        "email": email,
-        "password": password,
-      },
+      body: {"name": name, "email": email, "password": password},
     );
-
-    print("REGISTER RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
@@ -31,90 +24,71 @@ class ApiService {
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login.php"),
-      body: {
-        "email": email,
-        "password": password,
-      },
+      body: {"email": email, "password": password},
     );
-
-    print("LOGIN RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
-  // ─── REPORTS ────────────────────────────────────────────
+  // ─── REPORTS ─────────────────────────────────────────────
 
   static Future<List<dynamic>> getReports() async {
-    // Your PHP file name is get_report.php, not get_reports.php
-    final response = await http.get(
-      Uri.parse("$baseUrl/get_report.php"),
-    );
-
-    print("GET REPORTS RESPONSE: ${response.body}");
-
+    final response = await http.get(Uri.parse("$baseUrl/get_reports.php"));
     final data = jsonDecode(response.body);
     return data['data'] ?? [];
   }
 
   static Future<Map<String, dynamic>> addReport({
-    required int userId,
-    required String title,
-    required String description,
+    required String userId,
+    required String itemName,
     required String category,
-    required String type,
+    required String description,
     required String location,
+    required String reportType,
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/add_report.php"),
       body: {
-        "user_id": userId.toString(),
-        "item_name": title,
-        "description": description,
+        "user_id": userId,
+        "item_name": itemName,
         "category": category,
-        "report_type": type,
+        "description": description,
         "location": location,
+        "report_type": reportType,
         "status": "Unclaimed",
       },
     );
-
-    print("ADD REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
   static Future<Map<String, dynamic>> updateReport({
-    required int id,
-    required String title,
-    required String description,
+    required String reportId,
+    required String itemName,
     required String category,
-    required String type,
+    required String description,
     required String location,
+    required String reportType,
     required String status,
   }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/update_report.php"),
       body: {
-        "report_id": id.toString(),
-        "item_name": title,
-        "description": description,
+        "report_id": reportId,
+        "item_name": itemName,
         "category": category,
-        "report_type": type,
+        "description": description,
         "location": location,
+        "report_type": reportType,
         "status": status,
       },
     );
-
-    print("UPDATE REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 
-  static Future<Map<String, dynamic>> deleteReport(int id) async {
+  static Future<Map<String, dynamic>> deleteReport(String reportId) async {
     final response = await http.post(
       Uri.parse("$baseUrl/delete_report.php"),
-      body: {
-        "report_id": id.toString(),
-      },
+      body: {"report_id": reportId},
     );
-
-    print("DELETE REPORT RESPONSE: ${response.body}");
     return jsonDecode(response.body);
   }
 }

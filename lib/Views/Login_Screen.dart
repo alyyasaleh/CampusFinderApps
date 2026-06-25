@@ -38,12 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
 
       if (result['success'] == true) {
-        final user = result['data'];
+        final user = result['user'];
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => HomeScreen(
-              userId: user['id'],
+              userId: int.tryParse(user['id'].toString()) ?? 0,
               userName: user['name'],
             ),
           ),
