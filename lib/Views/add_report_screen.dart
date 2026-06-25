@@ -42,7 +42,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final result = await ApiService.addReport(
+      final result = await ApiConfig.addReport(
         userId: widget.userId.toString(),
         itemName: _itemNameController.text.trim(),
         category: _selectedCategory,

@@ -57,7 +57,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final result = await ApiService.updateReport(
+      final result = await ApiConfig.updateReport(
         reportId: widget.report['report_id'].toString(),
         itemName: _itemNameController.text.trim(),
         category: _selectedCategory,

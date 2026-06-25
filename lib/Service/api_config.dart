@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ApiService {
+class ApiConfig {
   static const String baseUrl = "http://localhost/lost_found_api";
 
   // ─── AUTH ────────────────────────────────────────────────
@@ -32,7 +32,7 @@ class ApiService {
   // ─── REPORTS ─────────────────────────────────────────────
 
   static Future<List<dynamic>> getReports() async {
-    final response = await http.get(Uri.parse("$baseUrl/get_reports.php"));
+    final response = await http.get(Uri.parse("$baseUrl/get_report.php"));
     final data = jsonDecode(response.body);
     return data['data'] ?? [];
   }
