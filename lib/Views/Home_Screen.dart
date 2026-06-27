@@ -211,14 +211,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             return GestureDetector(
                               onTap: () async {
-                                await Navigator.push(
+                                final changed = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                        DetailScreen(report: report),
+                                    builder: (_) => DetailScreen(
+                                      report: Map<String, dynamic>.from(report),
+                                    ),
                                   ),
                                 );
-                                _fetchReports();
+
+                                if (changed == true) {
+                                  await _fetchReports();
+                                }
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 12),
