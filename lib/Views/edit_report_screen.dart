@@ -15,7 +15,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
   late TextEditingController _itemNameController;
   late TextEditingController _descriptionController;
   late TextEditingController _locationController;
-
+  late TextEditingController _phoneController;
   late String _selectedCategory;
   late String _selectedType;
   late String _selectedStatus;
@@ -39,6 +39,9 @@ class _EditReportScreenState extends State<EditReportScreen> {
         TextEditingController(text: widget.report['description']);
     _locationController =
         TextEditingController(text: widget.report['location']);
+    _phoneController = TextEditingController(
+      text: widget.report['phone_number']?.toString() ?? '',
+      );
     _selectedCategory = widget.report['category'] ?? 'Personal Item';
     _selectedType = widget.report['report_type'] ?? 'Lost';
     _selectedStatus = widget.report['status'] ?? 'Unclaimed';
@@ -49,6 +52,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
     _itemNameController.dispose();
     _descriptionController.dispose();
     _locationController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -63,6 +67,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
         category: _selectedCategory,
         description: _descriptionController.text.trim(),
         location: _locationController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
         reportType: _selectedType,
         status: _selectedStatus,
       );
@@ -83,6 +88,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
           'category': _selectedCategory,
           'description': _descriptionController.text.trim(),
           'location': _locationController.text.trim(),
+          'phone_number': _phoneController.text.trim(),
           'report_type': _selectedType,
           'status': _selectedStatus,
         });
@@ -198,6 +204,23 @@ class _EditReportScreenState extends State<EditReportScreen> {
                 ),
                 validator: (v) =>
                     v == null || v.isEmpty ? 'Enter location' : null,
+              ),
+              const SizedBox(height: 16),
+
+              // ── phone number ──────────────────────────────
+              TextFormField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  labelText: 'Contact Number',
+                  prefixIcon: Icon(Icons.phone_outlined),
+                ),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Enter contact number';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 

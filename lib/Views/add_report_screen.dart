@@ -15,6 +15,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
   final _itemNameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   String _selectedCategory = 'Personal Item';
   String _selectedType = 'Lost';
@@ -22,7 +23,6 @@ class _AddReportScreenState extends State<AddReportScreen> {
 
   final List<String> _categories = [
     'Personal Item',
-    'Books',
     'Electronics',
     'Others',
   ];
@@ -34,6 +34,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
     _itemNameController.dispose();
     _descriptionController.dispose();
     _locationController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -48,6 +49,8 @@ class _AddReportScreenState extends State<AddReportScreen> {
         category: _selectedCategory,
         description: _descriptionController.text.trim(),
         location: _locationController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        
         reportType: _selectedType,
       );
 
@@ -173,6 +176,23 @@ class _AddReportScreenState extends State<AddReportScreen> {
                 ),
                 validator: (v) =>
                     v == null || v.isEmpty ? 'Enter location' : null,
+              ),
+              const SizedBox(height: 16),
+
+              //── phone number ─────────────────────────────
+              TextFormField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  labelText: 'Contact Number',
+                  prefixIcon: Icon(Icons.phone_outlined),
+                ),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Enter contact number';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 

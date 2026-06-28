@@ -43,6 +43,7 @@ class ApiConfig {
     required String category,
     required String description,
     required String location,
+    required String phoneNumber,
     required String reportType,
   }) async {
     final response = await http.post(
@@ -53,6 +54,7 @@ class ApiConfig {
         "category": category,
         "description": description,
         "location": location,
+        "phone_number": phoneNumber,
         "report_type": reportType,
         "status": "Unclaimed",
       },
@@ -66,6 +68,7 @@ class ApiConfig {
     required String category,
     required String description,
     required String location,
+    required String phoneNumber,
     required String reportType,
     required String status,
   }) async {
@@ -77,6 +80,7 @@ class ApiConfig {
         "category": category,
         "description": description,
         "location": location,
+        "phone_number": phoneNumber,
         "report_type": reportType,
         "status": status,
       },

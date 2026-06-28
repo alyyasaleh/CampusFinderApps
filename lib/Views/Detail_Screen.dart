@@ -44,6 +44,7 @@ class _DetailScreenState extends State<DetailScreen> {
         category: getValue("category"),
         description: getValue("description"),
         location: getValue("location"),
+        phoneNumber: getValue("phone_number"),
         reportType: getValue("report_type"),
         status: newStatus,
       );
@@ -237,6 +238,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                 infoRow("Category", getValue("category")),
                 infoRow("Location", getValue("location")),
+                infoRow("Contact Number", getValue("phone_number")),
                 infoRow("Description", getValue("description")),
                 infoRow("Reported by", getValue("user_name")),
                 infoRow("Date Reported", getValue("date_reported")),
