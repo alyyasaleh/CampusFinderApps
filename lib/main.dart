@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Views/Login_Screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const CampusFinderApp());
@@ -19,6 +20,9 @@ class CampusFinderApp extends StatelessWidget {
           primary: const Color(0xFF1E3A5F),
           secondary: const Color(0xFF4A90D9),
         ),
+
+        textTheme: GoogleFonts.nunitoTextTheme(),
+
         useMaterial3: true,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
